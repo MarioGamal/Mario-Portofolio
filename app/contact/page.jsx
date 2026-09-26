@@ -1,94 +1,56 @@
-"use client";
+import ContactForm from "@/components/ContactForm";
+import PageIntro from "@/components/PageIntro";
+import { socials } from "@/lib/content";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { motion } from "framer-motion";
-import {FaPhoneAlt, FaEnvelope, FaMapMarkerAlt} from 'react-icons/fa'
+export const metadata = { title: "Contact" };
 
-const info = [
-  {
-    icon: <FaPhoneAlt />,
-    title: 'Phone',
-    description: '(+61) 045 7171 041'
-  },
-  {
-    icon: <FaEnvelope />,
-    title: 'Email',
-    description: 'mario.iskander0@gmail.com'
-  },
-  {
-    icon: <FaMapMarkerAlt />,
-    title: 'Address',
-    description: 'Sydney, New South Wales'
-  }
-]
+const channels = [
+  { label: "Email", value: socials.email, href: `mailto:${socials.email}` },
+  { label: "LinkedIn", value: "in/marioiskandar", href: socials.linkedin },
+  { label: "GitHub", value: "MarioGamal", href: socials.github },
+];
 
-const Contact = () => {
-  return (
-    <motion.section
-    initial={{opacity:0}}
-    animate={{opacity:1, transition:{delay:2.4, duration:0.4, ease:"easeIn"}}}
-    className="py-6">
-      <div className="container mx-auto">
-        <div className="flex flex-col xl:flex-row gap-[30px]">
-          {/* form */}
-          <div className="xl:h-[54%] order-2 xl:order-none">
-            <form className="flex flex-col gap-6 p-10 bg-[#27272c] rounded-xl">
-              <h3 className="text-4xl text-accent">Lets work together</h3>
-              <p className="text-white/60">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit aut consectetur veniam eaque distinctio quia autem accusamus!</p>
-              {/* input */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Input type="firstname" placeholder="Firstname"/>
-                <Input type="lastname" placeholder="Lastname"/>
-                <Input type="email" placeholder="Email Address"/>
-                <Input type="phone" placeholder="Phone Number"/>
-              </div>
-              {/* select */}
-              <Select>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select a service" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Select a service</SelectLabel>
-                    <SelectItem value="est">Web Development</SelectItem>
-                    <SelectItem value="cst">UI/UX Design</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-              {/* textarea */}
-              <Textarea className="h-[200px]" placeholder="Type your message here." />
-              {/* btn */}
-              <Button size="md" className="max-w-40">
-                Send message
-              </Button>
-            </form>
-          </div>
-          {/* info */}
-          <div className="flex-1 flex items-center xl:justify-end order-1 xl:order-none mb-8 xl:mb-0">
-            <ul className="flex flex-col gap-10">
-              {info.map((item,index)=>{
-                return (
-                  <li key={index} className="flex items-center gap-6">
-                    <div className="w-[52px] h-[52px] xl:w-[72px] xl:h-[72px] bg-[#27272c] text-accent rounded-md flex items-center justify-center">
-                      <div className="text-[28px]">{item.icon}</div>
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-white/60">{item.title}</p>
-                      <h3 className="text-xl">{item.description}</h3>
-                    </div>
+const Contact = () => (
+  <>
+    <PageIntro title="Let's talk about your project">
+      Tell me what you&rsquo;re building, who it&rsquo;s for and when you need it. The message goes
+      straight to my inbox.
+    </PageIntro>
 
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-        </div>
+    <div className="container grid gap-16 lg:grid-cols-12 lg:gap-10">
+      <div className="lg:col-span-7">
+        <ContactForm />
       </div>
-    </motion.section>
-  )
-}
+
+      <aside className="lg:col-span-4 lg:col-start-9">
+        <h2 className="font-semibold">Or reach me directly</h2>
+        <dl className="mt-4">
+          {channels.map((c) => (
+            <div key={c.label} className="grid grid-cols-[6rem_1fr] gap-4 border-t border-line py-4">
+              <dt className="text-muted">{c.label}</dt>
+              <dd className="min-w-0">
+                <a className="hover:text-accent" href={c.href}>
+                  {/* Wrap long addresses at the @, not mid-word. */}
+                  {c.value.includes("@") ? (
+                    <>
+                      {c.value.split("@")[0]}
+                      <wbr />@{c.value.split("@")[1]}
+                    </>
+                  ) : (
+                    c.value
+                  )}
+                </a>
+              </dd>
+            </div>
+          ))}
+          <div className="grid grid-cols-[6rem_1fr] gap-4 border-t border-line py-4">
+            <dt className="text-muted">Based in</dt>
+            <dd>Sydney, Australia</dd>
+          </div>
+        </dl>
+      </aside>
+    </div>
+  </>
+);
 
 export default Contact;

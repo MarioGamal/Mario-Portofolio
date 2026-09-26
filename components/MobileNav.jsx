@@ -1,64 +1,40 @@
 "use client";
 
-import {Sheet, SheetContent, SheetTrigger} from '@/components/ui/sheet'
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
-import {CiMenuFries} from "react-icons/ci"
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
-const links = [
-    {
-        name:'home',
-        path:'/'
-    },
-    {
-        name:'services',
-        path: '/services'
-    },
-    {
-        name:'resume',
-        path: '/resume'
-    },
-    {
-        name:'work',
-        path: '/work'
-    },
-    {
-        name:'contact',
-        path: '/contact'
-    }
-]
+import { navLinks } from "./navLinks";
+import ThemeToggle from "./ThemeToggle";
 
 const MobileNav = () => {
-    const pathname = usePathname();
+  const pathname = usePathname();
+
   return (
     <Sheet>
-        <SheetTrigger className='flex justify-center items-center'>
-            <CiMenuFries className='text-[32px] text-accent' />
-        </SheetTrigger>
-        <SheetContent className='flex flex-col'>
-         {/* logo */}
-         <div className='mt-32 mb-40 text-center text-2xl'>
-            <Link href={"/"}>
-                <h1 className='text-4xl font-semibold'>
-                    MaRio<span className='text-accent'>.</span>
-                </h1>
-            </Link>
-
-         </div>       
-        <nav className='flex flex-col justify-center items-center gap-8'>
-            {links.map((link,index)=>{
-                return (
-                <Link href={link.path} key={index} 
-                className={`${link.path===pathname && "text-accent border-b-2 border-accent"} 
-                text-xl capitalize hover:text-accent transition-all`} >
-                    {link.name}
-                </Link>
-                )
-            })}
+      <SheetTrigger className="rounded-[3px] border border-line px-3 py-1.5 text-sm">Menu</SheetTrigger>
+      <SheetContent className="flex flex-col gap-10 pt-20">
+        <SheetTitle className="sr-only">Menu</SheetTitle>
+        <nav aria-label="Main" className="flex flex-col gap-5">
+          {[{ name: "Home", path: "/" }, ...navLinks].map((link) => (
+            <SheetClose asChild key={link.path}>
+              <Link
+                href={link.path}
+                aria-current={pathname === link.path ? "page" : undefined}
+                className={`text-xl font-[700] wide ${pathname === link.path ? "text-accent" : ""}`}
+              >
+                {link.name}
+              </Link>
+            </SheetClose>
+          ))}
         </nav>
-        </SheetContent>
+        <div className="flex items-center justify-between border-t border-line pt-6">
+          <span className="text-sm text-muted">Theme</span>
+          <ThemeToggle />
+        </div>
+      </SheetContent>
     </Sheet>
-  )
-}
+  );
+};
 
-export default MobileNav
+export default MobileNav;

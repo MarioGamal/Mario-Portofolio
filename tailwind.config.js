@@ -1,49 +1,37 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ["class"],
+  darkMode: ["selector", '[data-theme="dark"]'],
   content: [
-    './pages/**/*.{js,jsx}',
     './components/**/*.{js,jsx}',
     './app/**/*.{js,jsx}',
-    './src/**/*.{js,jsx}',
+    './lib/**/*.{js,jsx}',
   ],
-  prefix: "",
   theme: {
     container: {
       center: true,
-      padding: "2rem",
-      screens: {
-       sm:'640px',
-       md:'768px',
-       lg:'960px',
-       xl:'1200px',
-      }
+      padding: { DEFAULT: "1rem", sm: "1.5rem", lg: "2.5rem" },
+      screens: { xl: "1240px" },
     },
     extend: {
-      colors : {
-        primary: '#1c1c22',
-        accent: {
-          DEFAULT: '#00FF99',
-          hover: '#00e187',
-        }
+      colors: {
+        bg: "var(--bg)",
+        surface: "var(--surface)",
+        ink: "var(--ink)",
+        muted: "var(--muted)",
+        line: "var(--line)",
+        accent: "var(--accent)",
       },
-      keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
-        },
+      fontFamily: {
+        sans: ["var(--font-archivo)", "system-ui", "sans-serif"],
       },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
+      fontSize: {
+        // Classical scale around a 17px body.
+        sm: ["0.875rem", { lineHeight: "1.45" }],
+        base: ["1.0625rem", { lineHeight: "1.6" }],
+        lg: ["1.3125rem", { lineHeight: "1.45" }],
+        xl: ["1.75rem", { lineHeight: "1.2" }],
+        "2xl": ["2.25rem", { lineHeight: "1.1" }],
       },
-      fontFamily:{
-        sans: ["var(--font-jetbrainsMono)"],
-      }
     },
   },
   plugins: [require("tailwindcss-animate")],
